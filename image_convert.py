@@ -7,32 +7,23 @@ import sys
 
 path = "./images/"
 new_path = "./opt/icons/"
-dir = os.listdir(path)
 new_size = (128,128)
 rotation = 90
 
 if not os.path.exists(new_path):
   #create the directory
   os.makedirs(new_path)
-
+# iterate through all the files at the given directory
 for infile in sys.argv[1:]:
-  outfile = os.path.splitext(infile)[0] + ".JPEG"
+  #get the path of the destination and only take the filename, not the path
+  filename = infile[7:]
+  outfile = new_path + filename #+ os.path.splitext(infile)[1]
+  #print(outfile)
   try:
     with Image.open(infile) as im:
-      #print(infile, im.format, f"{im.size}x{im.mode}")
       im.rotate(rotation).resize(new_size).save(outfile, "JPEG")
   except Exception as e:
     print("Error: ", e)
     
-
-'''
-for file in dir:
-  try:
-    with Image.open(file) as im:
-      im.rotate(90).resize((128,128)).save(dir,  "JPEG")
-      print(file)
-  except Exception as e:
-    print("Error: ", e)
-'''
     
 
